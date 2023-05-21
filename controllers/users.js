@@ -92,3 +92,15 @@ export const addRemoveFriend = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getPopularUsers = async (req, res, next) => {
+  try {
+    const popularUsers = await User.find({ viewedProfile: { $gte: 5000 } });
+    res.status(200).json({ users: popularUsers });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 404;
+    }
+    next(err);
+  }
+};
