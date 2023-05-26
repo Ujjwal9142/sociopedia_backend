@@ -43,7 +43,7 @@ app.use((error, req, res, next) => {
 });
 
 /* Mongoose Setup */
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 3001;
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

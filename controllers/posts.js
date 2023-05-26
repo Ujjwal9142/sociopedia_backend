@@ -1,5 +1,5 @@
-import Post from "../models/posts.js";
-import User from "../models/user.js";
+import Post from '../models/posts.js';
+import User from '../models/user.js';
 
 export const createPost = async (req, res, next) => {
   const { userId, description, picturePath } = req.body;
@@ -18,7 +18,7 @@ export const createPost = async (req, res, next) => {
     });
     await newPost.save();
     const posts = await Post.find().sort({ createdAt: -1 });
-    res.status(201).json({ message: "Post created.", posts });
+    res.status(201).json({ message: 'Post created.', posts });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 409;
@@ -29,7 +29,7 @@ export const createPost = async (req, res, next) => {
 
 export const getFeedPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ updatedAt: -1 });
     res.status(200).json({ posts });
   } catch (err) {
     if (!err.statusCode) {
@@ -42,7 +42,9 @@ export const getFeedPosts = async (req, res, next) => {
 export const getUserPosts = async (req, res, next) => {
   const { userId } = req.params;
   try {
-    const userPosts = await Post.find({ userId: userId });
+    const userPosts = await Post.find({ userId: userId }).sort({
+      updatedAt: -1,
+    });
     res.status(200).json({ posts: userPosts });
   } catch (err) {
     if (!err.statusCode) {
